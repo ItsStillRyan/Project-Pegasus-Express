@@ -7,7 +7,7 @@ async function connect(mongoUrl, dbName) {
   });
   // use a database;
   let db = client.db(dbName);
-  console.log("Database connected");
+  console.log("Database Active, Mongo Connected");
   return db;
 }
 
