@@ -11,17 +11,16 @@ app.use(cors())
 
 async function main() {
     let userData = await MongoUtil.connect(mongoUrl, "Pegasus_User")
-    // let webCategories = await MongoUtil.connect(mongoUrl, "Pegasus_Cat")
+    let webCategories = await MongoUtil.connect(mongoUrl, "Pegasus_Cat")
     // let webQuestions = await MongoUtil.connect(mongoUrl, "Pegasus_Ques")
     console.log("Database Active, Main Function Running");
 
-    //create
+    //Create for USER DETAILS
     app.post("/upload", async (req, res) => {
-        let test = req.body.test;
-
+        let user_uploads = req.body.user_uploads;
         try {
             let result = await userData.collection("user_details").insertOne({
-                test: test
+                user_uploads: user_uploads
             })
             res.status(200)
             res.send(result.ops[0])
@@ -34,8 +33,26 @@ async function main() {
         }
     })
 
+    //CREATE FOR CATEGORIES
+    app.post("/uploadCat", async (req,res)=>{
+        let web_cats = req.body.web_cats
+        try{
+            let result = await webCategories.collection("web_cats").insertOne({
+                web_cats: web_cats
+            })
+            res.status(200)
+            res.send(result.ops[0])
+        } catch (e){
+            res.status(500)
+            res.send({
+                message: "Unable to upload. Please contact us if the problem persists!"    
+            })
+            console.log(e)
+        }
+    })
+
     //fetch info
-    app.get("/upload", async (req, res) => {
+    app.get("/show", async (req, res) => {
         try {
             let temp = await userData.collection("user_details").find().toArray()
             res.status(200)
