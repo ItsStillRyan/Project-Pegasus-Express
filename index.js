@@ -34,24 +34,24 @@ async function main() {
     })
 
     //CREATE FOR CATEGORIES
-    app.post("/uploadCat", async (req,res)=>{
+    app.post("/uploadCat", async (req, res) => {
         let web_cats = req.body.web_cats
-        try{
+        try {
             let result = await webCategories.collection("web_cats").insertOne({
                 web_cats: web_cats
             })
             res.status(200)
             res.send(result.ops[0])
-        } catch (e){
+        } catch (e) {
             res.status(500)
             res.send({
-                message: "Unable to upload. Please contact us if the problem persists!"    
+                message: "Unable to upload. Please contact us if the problem persists!"
             })
             console.log(e)
         }
     })
 
-    //fetch info
+    //fetch info for all posts
     app.get("/show", async (req, res) => {
         try {
             let temp = await userData.collection("user_details").find().toArray()
@@ -66,13 +66,45 @@ async function main() {
         }
     })
 
+    //fetch info for categories
+    app.get("/showCate", async (req, res) => {
+        try {
+            let temp = await webCategories.collection("web_cats").find().toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+
+    app.get("/show/:_id", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").findOne({
+                _id: ObjectId(req.params._id)
+            })
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+
+
 
     //deleting
-    app.delete("/delete/:id", async (req, res) => {
+    app.delete("/delete/:_id", async (req, res) => {
 
         try {
             await userData.collection("user_details").deleteOne({
-                _id: ObjectId(req.params.id)
+                _id: ObjectId(req.params._id)
             })
             res.status(200)
             res.send({
@@ -88,12 +120,12 @@ async function main() {
     })
 
     //updating
-    app.put("/upload", async (req,res)=>{
+    app.put("/upload", async (req, res) => {
         try {
             await userData.collection("user_details").updateOne({
                 _id: ObjectId(req.params.id)
-            },{
-                '$set':{
+            }, {
+                '$set': {
                     'test': req.body.test
                 }
             })
