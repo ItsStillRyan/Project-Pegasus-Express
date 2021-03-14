@@ -81,11 +81,110 @@ async function main() {
         }
     })
 
+    //fetch individual posts
     app.get("/show/:_id", async (req, res) => {
         try {
             let temp = await userData.collection("user_details").findOne({
                 _id: ObjectId(req.params._id)
             })
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+
+    //fetch individual categories
+    //galaxies
+    app.get("/galaxies", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").find({
+                'user_uploads.details.category': 'Galaxies'
+            }).toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+    //Star Clusters
+    app.get("/starcluster", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").find({
+                'user_uploads.details.category': 'Star Cluster'
+            }).toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+    //Planetary
+    app.get("/planetary", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").find({
+                'user_uploads.details.category': 'Planetary'
+            }).toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+    //Nebulae
+    app.get("/nebulae", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").find({
+                'user_uploads.details.category': 'Nebulae'
+            }).toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+    //Space Craft
+    app.get("/spacecraft", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").find({
+                'user_uploads.details.category': 'Space Craft'
+            }).toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+    //Others
+    app.get("/others", async (req, res) => {
+        try {
+            let temp = await userData.collection("user_details").find({
+                'user_uploads.details.category': 'Others'
+            }).toArray()
             res.status(200)
             res.send(temp)
         } catch (e) {
@@ -120,13 +219,24 @@ async function main() {
     })
 
     //updating
-    app.put("/upload", async (req, res) => {
+    app.put("/update/:id", async (req, res) => {
         try {
             await userData.collection("user_details").updateOne({
                 _id: ObjectId(req.params.id)
             }, {
                 '$set': {
-                    'test': req.body.test
+                    "user_uploads": {
+                        "details": {
+                            "name": req.body.user_uploads.details.name,
+                            "location": req.body.user_uploads.details.location
+                        },
+                        "content": {
+                            "img": req.body.user_uploads.content.img,
+                            "title": req.body.user_uploads.content.title,
+                            "equipment": req.body.user_uploads.content.equipment,
+                            "processing": req.body.user_uploads.content.processing
+                        }
+                    },
                 }
             })
             res.status(200)
