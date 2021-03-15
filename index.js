@@ -228,7 +228,9 @@ async function main() {
                     "user_uploads": {
                         "details": {
                             "name": req.body.user_uploads.details.name,
-                            "location": req.body.user_uploads.details.location
+                            "location": req.body.user_uploads.details.location,
+                            "pIndex":req.body.user_uploads.details.pIndex,
+                            "category":req.body.user_uploads.details.category
                         },
                         "content": {
                             "img": req.body.user_uploads.content.img,
