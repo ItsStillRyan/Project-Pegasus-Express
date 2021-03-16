@@ -34,7 +34,6 @@ async function main() {
             console.log(e)
         }
     })
-
     //CATEGORIES
     app.post("/uploadCat", async (req, res) => {
         let web_cats = req.body.web_cats
@@ -52,7 +51,6 @@ async function main() {
             console.log(e)
         }
     })
-
     //COMMENTS  
     app.post("/uploadCom", async (req, res) => {
         let userComs = req.body.userComs;
@@ -73,6 +71,8 @@ async function main() {
 
     //END OF CREATE
 
+    //START OF DISPLAY
+
     //fetch info for all posts
     app.get("/show", async (req, res) => {
         try {
@@ -87,7 +87,6 @@ async function main() {
             console.log(e)
         }
     })
-
     //fetch info for categories
     app.get("/showCate", async (req, res) => {
         try {
@@ -102,7 +101,6 @@ async function main() {
             console.log(e)
         }
     })
-
     //fetch individual posts
     app.get("/show/:_id", async (req, res) => {
         try {
@@ -119,8 +117,20 @@ async function main() {
             console.log(e)
         }
     })
-
-    //fetch individual categories
+    //fetch comments
+    app.get("/commentsList", async (req, res)=> {
+        try {
+            let temp = await userComments.collection("user_comments").find().toArray()
+            res.status(200)
+            res.send(temp)
+        } catch (e) {
+            res.status(500)
+            res.send({
+                message: "Unable to display content. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
     //galaxies
     app.get("/galaxies", async (req, res) => {
         try {
@@ -217,6 +227,10 @@ async function main() {
             console.log(e)
         }
     })
+
+    //END OF DISPLAY
+
+
     //deleting
     app.delete("/delete/:_id", async (req, res) => {
 
