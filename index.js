@@ -10,12 +10,14 @@ app.use(express.json())
 app.use(cors())
 
 async function main() {
-    let userData = await MongoUtil.connect(mongoUrl, "Pegasus_User")
-    let webCategories = await MongoUtil.connect(mongoUrl, "Pegasus_Cat")
-    // let webQuestions = await MongoUtil.connect(mongoUrl, "Pegasus_Ques")
+    let userData = await MongoUtil.connect(mongoUrl, "Pegasus")
+    let webCategories = await MongoUtil.connect(mongoUrl, "Pegasus")
+    let userComments = await MongoUtil.connect(mongoUrl, "Pegasus")
     console.log("Database Active, Main Function Running");
 
-    //Create for USER DETAILS
+    //CREATE
+
+    //USER DETAILS
     app.post("/upload", async (req, res) => {
         let user_uploads = req.body.user_uploads;
         try {
@@ -33,7 +35,7 @@ async function main() {
         }
     })
 
-    //CREATE FOR CATEGORIES
+    //CATEGORIES
     app.post("/uploadCat", async (req, res) => {
         let web_cats = req.body.web_cats
         try {
@@ -50,6 +52,26 @@ async function main() {
             console.log(e)
         }
     })
+
+    //COMMENTS  
+    app.post("/uploadCom", async (req, res) => {
+        let userComs = req.body.userComs;
+        try{
+            let results = await userComments.collection("user_comments").insertOne({
+                userComs : userComs
+            })
+            res.status(200)
+            res.send(results.ops[0])
+        } catch (e){
+            res.status(500)
+            res.send({
+                message: "Unable to upload. Please contact us if the problem persists!"
+            })
+            console.log(e)
+        }
+    })
+
+    //END OF CREATE
 
     //fetch info for all posts
     app.get("/show", async (req, res) => {
@@ -195,9 +217,6 @@ async function main() {
             console.log(e)
         }
     })
-
-
-
     //deleting
     app.delete("/delete/:_id", async (req, res) => {
 
@@ -217,7 +236,6 @@ async function main() {
             console.log(e)
         }
     })
-
     //updating
     app.put("/update/:id", async (req, res) => {
         try {
