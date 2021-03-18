@@ -251,37 +251,37 @@ async function main() {
         }
     })
 
-    app.delete("/comDelete/:id",async (req,res) => {
-        try{
-            await userComments.collection("user_comments").deleteOne({
-                _id: ObjectId(req.params._id)
-            })
-            res.status(200)
-            res.send({
-                'message':'Deleted'
-            })
-        }catch (e) {
-            res.status(500)
-            res.send({
-                'message': "Unable to delete content. Please contact us if the problem persists!"
-            })
-            console.log(e)
-        }
-    })
+    // app.delete("/comDelete/:id",async (req,res) => {
+    //     try{
+    //         await userComments.collection("user_comments").deleteOne({
+    //             _id: ObjectId(req.params._id)
+    //         })
+    //         res.status(200)
+    //         res.send({
+    //             'message':'Deleted'
+    //         })
+    //     }catch (e) {
+    //         res.status(500)
+    //         res.send({
+    //             'message': "Unable to delete content. Please contact us if the problem persists!"
+    //         })
+    //         console.log(e)
+    //     }
+    // })
 
-    app.delete("/comDelete",async (req,res)=>{
-        try{
-            await userComments.collection("user_comments").delete({
-                'userComs.pIndex':req.params.userComs.pIndex
-            })
-        }catch (e){
-            res.status(500)
-            res.send({
-                'message': "Unable to delete content. Please contact us if the problem persists!"
-            })
-            console.log(e)
-        }
-    })
+    // app.delete("/comDelete",async (req,res)=>{
+    //     try{
+    //         await userComments.collection("user_comments").delete({
+    //             'userComs.pIndex':req.params.userComs.pIndex
+    //         })
+    //     }catch (e){
+    //         res.status(500)
+    //         res.send({
+    //             'message': "Unable to delete content. Please contact us if the problem persists!"
+    //         })
+    //         console.log(e)
+    //     }
+    // })
 
     //END OF DELETE
     //updating
