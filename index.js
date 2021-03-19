@@ -151,7 +151,7 @@ async function main() {
     app.get("/starcluster", async (req, res) => {
         try {
             let temp = await userData.collection("user_details").find({
-                'user_uploads.details.category': 'Star Cluster'
+                'user_uploads.details.category': 'StarCluster'
             }).toArray()
             res.status(200)
             res.send(temp)
@@ -199,7 +199,7 @@ async function main() {
     app.get("/spacecraft", async (req, res) => {
         try {
             let temp = await userData.collection("user_details").find({
-                'user_uploads.details.category': 'Space Craft'
+                'user_uploads.details.category': 'SpaceCraft'
             }).toArray()
             res.status(200)
             res.send(temp)
